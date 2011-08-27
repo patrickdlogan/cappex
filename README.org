@@ -95,5 +95,5 @@ resizes according to the above constraints. The right, white rectangle
 remains 300 points wide, while the left, blue rectangle uses the
 remaining available width.
 
-
+* The code up to this point is on github as version v0.1.0
 
