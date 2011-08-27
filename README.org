@@ -124,3 +124,74 @@ width, which the yellow view width should remain at 300 points.
 
 * The code up to this point is on github as version 0.2.0
 
+* Subviews of subvies of subviews
+
+The next step will split the right view vertically into two deeper
+subviews. The top view view has a fixed height, and is green. The
+bottom view uses the available remaining height and is purple. They
+both use the full width of their parent.
+
+To avoid a run-on method, these views are created in their own method
+of the AppController.
+
+    - (void)addSubviewsToView:(CPView)aView
+    {
+       // Code goes here.
+
+This method takes any view as an argument and will add the two
+subviews to it. First the top view.
+
+    var bounds = [aView bounds];
+    var width = CGRectGetWidth(bounds);
+    var height = CGRectGetHeight(bounds);
+
+    var topView = [[CPView alloc] initWithFrame: CGRectMake(0, 0, width, 200)];
+    [topView setAutoresizingMask: CPViewWidthSizable | CPViewMaxYMargin];
+    var topController = [[GreenViewController alloc] initWithView: topView];
+
+    [aView addSubview: topView];
+
+Notice the top view is added a the location (0, 0) of the parent
+view. This will be the location of the frame for the top view within
+the bounds of the parent view. The parent view bounds are its own
+coordinate system, indendent of that parent's parent view. And so
+(0, 0) is the top-most, left-most location of the immediate parent
+view.
+
+The CPViewMaxYMargin resizing constraint fixes the height of the top
+view at 200. All the remaining height is given to the Y margin below
+the top view. (This same are will be allocated to the bottom view in
+the code below.)
+
+After the top view is allocated and initialized, it is sent to an
+instance of GreenController, which sets the background color to
+green. A controller is usually intended to mediate between a data
+model and the view. Which may occur later in the life of this example
+project.
+
+The bottom view is handled similarly.
+
+    var bottomView = [[CPView alloc] initWithFrame: CGRectMake(0, 200, width, height - 200)];
+    [bottomView setAutoresizingMask: CPViewWidthSizable | CPViewHeightSizable];
+    var bottomController = [[PurpleViewController alloc] initWithView: bottomView];
+
+    [aView addSubview: bottomView];
+
+The bottom view is positioned at (0, 200), just below the top view. It
+has the full width of the parent, and all of the height not taken by
+the 200-point height of the top view.
+
+The bottom view will use all the available width when resized. The
+height will use the available height less the 200-point fixed height
+of the top view. A PurpleController is used to set the background
+color.
+
+When the app is (re-)loaded in the browser, the left, yellow view is
+now obscured by its two subviews. Instead of yellow, there should be a
+green top rectangle and a bottom purple one. Resizing the browser
+window should maintain the relative rectangles of the blue, green, and
+purple rectangles corresponding to the view frames established within
+the borders of their parents. Each view provides its own bounds for
+its own subviews, independent of the nesting of subviews within
+subviews within subviews.
+
