@@ -1,0 +1,99 @@
+* Create the project structure using "capp"
+
+~/dev$ capp gen cappex
+Creating Frameworks directory in /home/patrick/dev/cappex/Frameworks...
+Copying /home/patrick/software/narwhal/packages/objective-j/Frameworks/Objective-J ==> /home/patrick/dev/cappex/Frameworks/Objective-J
+Copying /home/patrick/software/narwhal/packages/objective-j/Frameworks/Debug/Objective-J ==> /home/patrick/dev/cappex/Frameworks/Debug/Objective-J
+Copying /home/patrick/software/narwhal/packages/cappuccino/Frameworks/Foundation ==> /home/patrick/dev/cappex/Frameworks/Foundation
+Copying /home/patrick/software/narwhal/packages/cappuccino/Frameworks/Debug/Foundation ==> /home/patrick/dev/cappex/Frameworks/Debug/Foundation
+Copying /home/patrick/software/narwhal/packages/cappuccino/Frameworks/AppKit ==> /home/patrick/dev/cappex/Frameworks/AppKit
+Copying /home/patrick/software/narwhal/packages/cappuccino/Frameworks/Debug/AppKit ==> /home/patrick/dev/cappex/Frameworks/Debug/AppKit
+
+* Initialize it for git-flow
+
+~/dev/cappex$ git flow init
+Initialized empty Git repository in /home/patrick/dev/cappex/.git/
+No branches exist yet. Base branches must be created now.
+Branch name for production releases: [master] 
+Branch name for "next release" development: [develop] 
+
+How to name your supporting branch prefixes?
+Feature branches? [feature/] 
+Release branches? [release/] 
+Hotfix branches? [hotfix/] 
+Support branches? [support/] 
+Version tag prefix? [] v
+
+* Run the default application in the browser
+
+file:///home/patrick/dev/cappex/index.html
+
+If you see Hello World! then you are in business.
+
+* Remove the default behavior from AppController.j
+** These are the lines that display the hello world label. Remove them.
+
+    var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
+
+    [label setStringValue:@"Hello World!"];
+    [label setFont:[CPFont boldSystemFontOfSize:24.0]];
+
+    [label sizeToFit];
+
+    [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
+    [label setCenter:[contentView center]];
+
+    [contentView addSubview:label];
+
+* Divide the application view into two subviews.
+
+This could be done with a splitter, using CPSplitView. This example
+though will have two subviews with auto-constrained proportions.
+
+In place of the removed code, above, add the following lines.
+
+    var bounds = [contentView bounds];
+    var width = CGRectGetWidth(bounds);
+    var height = CGRectGetHeight(bounds);
+
+    var leftView = [[CPView alloc] initWithFrame: CGRectMake(0, 0, width - 300, height)];
+    [leftView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+    [leftView setBackgroundColor: [CPColor blueColor]];
+
+    [contentView addSubview: leftView];
+
+Reload the application in the browser. The hello world label should be
+gone. In its place should be a large blue rectangle to the left of a
+more narrow white rectangle.
+
+This code is working with views, and uses two terms for dimensions:
+bounds and frames. Every view has two coordinate systems: the
+rectangle of the view within its parent is the frame. The view then
+provides its own relative coordinate system, its bounds, for subviews.
+
+So every view is framed within a parent and provides bounds for its
+own children. The message:
+
+    [[CPView alloc] initWithFrame: CGRectMake(0, 0, width - 300, height)
+
+allocates a new instance of CPView and frames it within its parent at
+the parent's location (0, 0). The new view has the same height as the
+parent, but the width is more narrow.
+
+The next message:
+
+    [leftView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+
+tells the view how to reposition itself when its parent is resized. In
+this example the view will retain its same location, (0, 0), and it
+will change its height and width proportionally. That is it will
+continue to use all of the parent height, and all of the available
+width less 300 points.
+
+Resizing the browser window should illustrate how the left, blue view
+resizes according to the above constraints. The right, white rectangle
+remains 300 points wide, while the left, blue rectangle uses the
+remaining available width.
+
+
+
