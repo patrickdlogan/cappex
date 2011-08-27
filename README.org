@@ -1,3 +1,4 @@
+* github project is at https://github.com/patrickdlogan/cappex
 * Create the project structure using "capp"
 
 ~/dev$ capp gen cappex
@@ -120,3 +121,6 @@ left-side view.
 
 As the browser window is resized, the blue view should fluctuate in
 width, which the yellow view width should remain at 300 points.
+
+* The code up to this point is on github as version 0.2.0
+
