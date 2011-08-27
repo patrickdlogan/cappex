@@ -195,3 +195,4 @@ the borders of their parents. Each view provides its own bounds for
 its own subviews, independent of the nesting of subviews within
 subviews within subviews.
 
+* The code up to this point is on github as version 0.3.0
