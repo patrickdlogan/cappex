@@ -28,6 +28,12 @@
 
     [contentView addSubview: leftView];
 
+    var rightView = [[CPView alloc] initWithFrame: CGRectMake(width - 300, 0, 300, height)];
+    [rightView setAutoresizingMask: CPViewHeightSizable | CPViewMinXMargin];
+    [rightView setBackgroundColor: [CPColor yellowColor]];
+
+    [contentView addSubview: rightView];
+
     [theWindow orderFront:self];
 
     // Uncomment the following line to turn on the standard menu bar.

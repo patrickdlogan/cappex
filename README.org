@@ -1,3 +1,4 @@
+* github project is at https://github.com/patrickdlogan/cappex
 * Create the project structure using "capp"
 
 ~/dev$ capp gen cappex
@@ -95,5 +96,31 @@ resizes according to the above constraints. The right, white rectangle
 remains 300 points wide, while the left, blue rectangle uses the
 remaining available width.
 
-* The code up to this point is on github as version v0.1.0
+* The code up to this point is on github as version 0.1.0
+
+* Add the right-side subview.
+
+Add the following code to position another subview on the right side.
+
+    var rightView = [[CPView alloc] initWithFrame: CGRectMake(width - 300, 0, 300, height)];
+    [rightView setAutoresizingMask: CPViewHeightSizable | CPViewMinXMargin];
+    [rightView setBackgroundColor: [CPColor yellowColor]];
+
+    [contentView addSubview: rightView];
+
+This positions the right subview at the location (width - 300, 0)
+which is the top, right location of the left, blue rectangle. As with
+the left view, the right view will auto-resize to use the available
+height.
+
+The width though will remain fixed at 300 points as the parent is
+resized. The constraint CPViewMinXMargin tells the resizing algorithm
+to adjust the margin to the left of the view. In this example the left
+margin of the right-side view is exactly the width given to the
+left-side view.
+
+As the browser window is resized, the blue view should fluctuate in
+width, which the yellow view width should remain at 300 points.
+
+* The code up to this point is on github as version 0.2.0
 
